@@ -1,0 +1,20 @@
+{
+  "testEnvironment": "node",
+  "testRunner": "jest-circus/runner",
+  "testTimeout": 120000,
+  "testRegex": "\\.test\\.(js|ts)$",
+  "reporters": [
+    "default",
+    [
+      "jest-junit",
+      {
+        "outputDirectory": "test-reports",
+        "outputName": "e2e-results.xml"
+      }
+    ]
+  ],
+  "verbose": true,
+  "setupFilesAfterEnv": ["<rootDir>/tests/e2e/setup.ts"],
+  "globalSetup": "<rootDir>/tests/e2e/globalSetup.js",
+  "globalTeardown": "<rootDir>/tests/e2e/globalTeardown.js"
+}

@@ -19,6 +19,7 @@ export interface User {
   address?: string;
   emergency_contact?: string;
   emergency_phone?: string;
+  push_token?: string;
   created_at: string;
   updated_at: string;
 }

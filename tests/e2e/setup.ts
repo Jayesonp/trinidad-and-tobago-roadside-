@@ -1,5 +1,5 @@
 // E2E Testing Setup for RoadSide+ Trinidad & Tobago
-import { by, device, element, expect } from 'detox';
+import { by, device, element, expect, waitFor } from 'detox';
 
 // Test configuration
 export const TEST_CONFIG = {
