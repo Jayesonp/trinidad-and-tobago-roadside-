@@ -1,0 +1,10 @@
+Role,Count,Phase Coverage,Monthly Cost ($)
+Technical Lead,1,All phases,12000
+Senior Full-Stack Developer,2,Phases 1-8,20000
+React Native Developer,3,Phases 3-4,24000
+Backend Developer,2,"Phases 2, 5-8",16000
+DevOps Engineer,1,"Phases 1, 9-10",8000
+UI/UX Designer,1,Phases 3-7,6000
+QA Engineer,2,Phase 9,10000
+Security Specialist,1,"Phases 7, 9",8000
+Product Manager,1,All phases,8000

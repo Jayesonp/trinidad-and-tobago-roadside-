@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoadSide+ Multi-Tenant Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body data-color-scheme="dark">
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">RoadSide<span class="plus">+</span></h1>
+                <div class="tenant-info" id="current-tenant">
+                    <div class="tenant-badge">Standard</div>
+                </div>
+            </div>
+            
+            <div class="panel-selector">
+                <h3 class="sidebar-title">Panels</h3>
+                <ul class="panel-list">
+                    <li class="panel-item active" data-panel="customer">
+                        <span class="icon">👤</span>
+                        <span class="label">Customer</span>
+                    </li>
+                    <li class="panel-item" data-panel="technician">
+                        <span class="icon">🔧</span>
+                        <span class="label">Technician</span>
+                    </li>
+                    <li class="panel-item" data-panel="admin">
+                        <span class="icon">🛠️</span>
+                        <span class="label">Admin</span>
+                    </li>
+                    <li class="panel-item" data-panel="partner">
+                        <span class="icon">🤝</span>
+                        <span class="label">Partner</span>
+                    </li>
+                    <li class="panel-item" data-panel="security">
+                        <span class="icon">🔒</span>
+                        <span class="label">Security</span>
+                    </li>
+                    <li class="panel-item" data-panel="whitelabel">
+                        <span class="icon">🏷️</span>
+                        <span class="label">White Label</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="avatar">JS</div>
+                    <div class="user-details">
+                        <div class="user-name">John Smith</div>
+                        <div class="user-role">Admin</div>
+                    </div>
+                </div>
+                <button class="btn btn--outline btn--sm logout-btn">
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Panel Content Container -->
+            <div class="panel-container">
+                <!-- Customer Panel -->
+                <section class="panel active" id="customer-panel">
+                    <header class="panel-header">
+                        <h2>Customer Dashboard</h2>
+                        <div class="actions">
+                            <button class="btn btn--outline sos-button">
+                                <span class="sos-icon">🆘</span> SOS
+                            </button>
+                        </div>
+                    </header>
+                    
+                    <div class="panel-body">
+                        <div class="widget-row">
+                            <div class="card service-booking">
+                                <div class="card__header">
+                                    <h3>Book a Service</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="service-grid">
+                                        <!-- Services will be loaded from JS -->
+                                    </div>
+                                    <div class="service-details" style="display: none;">
+                                        <h4 id="selected-service-name">Select a service</h4>
+                                        <p id="selected-service-desc"></p>
+                                        <div class="service-meta">
+                                            <div class="meta-item">
+                                                <span class="meta-label">Price:</span>
+                                                <span class="meta-value" id="selected-service-price">$0</span>
+                                            </div>
+                                            <div class="meta-item">
+                                                <span class="meta-label">ETA:</span>
+                                                <span class="meta-value" id="selected-service-eta">0 min</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="service-location">Your Location</label>
+                                            <input type="text" class="form-control" id="service-location" placeholder="Enter your current location">
+                                        </div>
+                                        <button class="btn btn--primary btn--full-width" id="book-service-btn">Book Now</button>
+                                        <button class="btn btn--outline btn--full-width mt-8" id="back-to-services-btn">Back to Services</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card tracking-widget">
+                                <div class="card__header">
+                                    <h3>Service Tracking</h3>
+                                    <div class="status-badge" id="tracking-status">No active service</div>
+                                </div>
+                                <div class="card__body">
+                                    <div class="tracking-map-container">
+                                        <div id="tracking-map">
+                                            <div class="map-placeholder">
+                                                <div class="map-center-marker">📍</div>
+                                                <div class="technician-marker" id="technician-marker" style="display: none;">🚗</div>
+                                            </div>
+                                        </div>
+                                        <div class="tracking-details" id="tracking-details">
+                                            <p>Book a service to start tracking</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-row">
+                            <div class="card payment-widget">
+                                <div class="card__header">
+                                    <h3>Payment Methods</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="payment-methods">
+                                        <div class="payment-method active">
+                                            <div class="payment-icon">💳</div>
+                                            <div class="payment-details">
+                                                <div class="payment-name">Visa ending in 4242</div>
+                                                <div class="payment-exp">Exp: 12/26</div>
+                                            </div>
+                                        </div>
+                                        <div class="payment-method">
+                                            <div class="payment-icon">🏦</div>
+                                            <div class="payment-details">
+                                                <div class="payment-name">Add payment method</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card history-widget">
+                                <div class="card__header">
+                                    <h3>Service History</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="service-history">
+                                        <div class="history-item">
+                                            <div class="history-icon">🚛</div>
+                                            <div class="history-details">
+                                                <div class="history-service">Towing Service</div>
+                                                <div class="history-date">June 20, 2025</div>
+                                            </div>
+                                            <div class="history-amount">$150</div>
+                                        </div>
+                                        <div class="history-item">
+                                            <div class="history-icon">🔋</div>
+                                            <div class="history-details">
+                                                <div class="history-service">Battery Jump Start</div>
+                                                <div class="history-date">June 10, 2025</div>
+                                            </div>
+                                            <div class="history-amount">$75</div>
+                                        </div>
+                                        <div class="history-item">
+                                            <div class="history-icon">🛞</div>
+                                            <div class="history-details">
+                                                <div class="history-service">Tire Change</div>
+                                                <div class="history-date">May 28, 2025</div>
+                                            </div>
+                                            <div class="history-amount">$100</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Technician Panel -->
+                <section class="panel" id="technician-panel">
+                    <header class="panel-header">
+                        <h2>Technician Dashboard</h2>
+                        <div class="actions">
+                            <div class="status-toggle">
+                                <span class="status-label">Status:</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="tech-status-toggle" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                                <span class="status-value online" id="tech-status-value">Online</span>
+                            </div>
+                        </div>
+                    </header>
+                    
+                    <div class="panel-body">
+                        <div class="widget-row">
+                            <div class="card job-management">
+                                <div class="card__header">
+                                    <h3>Job Management</h3>
+                                    <div class="tab-nav">
+                                        <button class="tab-btn active" data-tab="available-jobs">Available</button>
+                                        <button class="tab-btn" data-tab="assigned-jobs">Assigned</button>
+                                    </div>
+                                </div>
+                                <div class="card__body">
+                                    <div class="tab-content active" id="available-jobs">
+                                        <div class="job-list">
+                                            <div class="job-item">
+                                                <div class="job-icon">🔋</div>
+                                                <div class="job-details">
+                                                    <div class="job-title">Battery Jump Start</div>
+                                                    <div class="job-location">Downtown Area - 2.3 miles away</div>
+                                                </div>
+                                                <button class="btn btn--primary btn--sm">Accept</button>
+                                            </div>
+                                            <div class="job-item">
+                                                <div class="job-icon">🛞</div>
+                                                <div class="job-details">
+                                                    <div class="job-title">Tire Change</div>
+                                                    <div class="job-location">North District - 3.8 miles away</div>
+                                                </div>
+                                                <button class="btn btn--primary btn--sm">Accept</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-content" id="assigned-jobs">
+                                        <div class="job-list">
+                                            <div class="job-item">
+                                                <div class="job-icon">🚛</div>
+                                                <div class="job-details">
+                                                    <div class="job-title">Towing Service</div>
+                                                    <div class="job-location">South Area - In Progress</div>
+                                                </div>
+                                                <button class="btn btn--secondary btn--sm">Navigate</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card earnings-widget">
+                                <div class="card__header">
+                                    <h3>Earnings</h3>
+                                    <div class="tab-nav">
+                                        <button class="tab-btn active" data-tab="daily-earnings">Daily</button>
+                                        <button class="tab-btn" data-tab="weekly-earnings">Weekly</button>
+                                        <button class="tab-btn" data-tab="monthly-earnings">Monthly</button>
+                                    </div>
+                                </div>
+                                <div class="card__body">
+                                    <div class="tab-content active" id="daily-earnings">
+                                        <div class="earnings-chart-container">
+                                            <canvas id="daily-earnings-chart"></canvas>
+                                        </div>
+                                        <div class="earnings-summary">
+                                            <div class="summary-item">
+                                                <div class="summary-value">$125</div>
+                                                <div class="summary-label">Today</div>
+                                            </div>
+                                            <div class="summary-item">
+                                                <div class="summary-value">3</div>
+                                                <div class="summary-label">Jobs</div>
+                                            </div>
+                                            <div class="summary-item">
+                                                <div class="summary-value">$41.67</div>
+                                                <div class="summary-label">Avg/Job</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-content" id="weekly-earnings">
+                                        <div class="earnings-chart-container">
+                                            <canvas id="weekly-earnings-chart"></canvas>
+                                        </div>
+                                        <div class="earnings-summary">
+                                            <div class="summary-item">
+                                                <div class="summary-value">$875</div>
+                                                <div class="summary-label">This Week</div>
+                                            </div>
+                                            <div class="summary-item">
+                                                <div class="summary-value">21</div>
+                                                <div class="summary-label">Jobs</div>
+                                            </div>
+                                            <div class="summary-item">
+                                                <div class="summary-value">$41.67</div>
+                                                <div class="summary-label">Avg/Job</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-content" id="monthly-earnings">
+                                        <div class="earnings-chart-container">
+                                            <canvas id="monthly-earnings-chart"></canvas>
+                                        </div>
+                                        <div class="earnings-summary">
+                                            <div class="summary-item">
+                                                <div class="summary-value">$3,420</div>
+                                                <div class="summary-label">This Month</div>
+                                            </div>
+                                            <div class="summary-item">
+                                                <div class="summary-value">82</div>
+                                                <div class="summary-label">Jobs</div>
+                                            </div>
+                                            <div class="summary-item">
+                                                <div class="summary-value">$41.71</div>
+                                                <div class="summary-label">Avg/Job</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-row">
+                            <div class="card performance-widget">
+                                <div class="card__header">
+                                    <h3>Performance Metrics</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="metrics-container">
+                                        <div class="metric-item">
+                                            <div class="metric-title">Rating</div>
+                                            <div class="metric-value">
+                                                <span class="rating">4.8</span>
+                                                <span class="rating-stars">★★★★★</span>
+                                            </div>
+                                        </div>
+                                        <div class="metric-item">
+                                            <div class="metric-title">Completed Jobs</div>
+                                            <div class="metric-value">245</div>
+                                        </div>
+                                        <div class="metric-item">
+                                            <div class="metric-title">Response Time</div>
+                                            <div class="metric-value">4.2 min</div>
+                                        </div>
+                                        <div class="metric-item">
+                                            <div class="metric-title">Acceptance Rate</div>
+                                            <div class="metric-value">92%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card communication-widget">
+                                <div class="card__header">
+                                    <h3>Customer Communication</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="chat-container">
+                                        <div class="chat-messages" id="chat-messages">
+                                            <div class="message customer">
+                                                <div class="message-content">How long until you arrive?</div>
+                                                <div class="message-time">10:30 AM</div>
+                                            </div>
+                                            <div class="message technician">
+                                                <div class="message-content">I'm about 10 minutes away. Traffic is clear.</div>
+                                                <div class="message-time">10:31 AM</div>
+                                            </div>
+                                            <div class="message customer">
+                                                <div class="message-content">Great, I'll be waiting by the car.</div>
+                                                <div class="message-time">10:32 AM</div>
+                                            </div>
+                                        </div>
+                                        <div class="chat-input">
+                                            <input type="text" class="form-control" id="message-input" placeholder="Type a message...">
+                                            <button class="btn btn--primary btn--sm" id="send-message-btn">Send</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Admin Panel -->
+                <section class="panel" id="admin-panel">
+                    <header class="panel-header">
+                        <h2>Admin Dashboard</h2>
+                        <div class="actions">
+                            <button class="btn btn--primary">Export Reports</button>
+                        </div>
+                    </header>
+                    
+                    <div class="panel-body">
+                        <div class="widget-row">
+                            <div class="card analytics-widget">
+                                <div class="card__header">
+                                    <h3>System Analytics</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="analytics-grid">
+                                        <div class="analytic-item">
+                                            <div class="analytic-value" id="total-users">15,420</div>
+                                            <div class="analytic-label">Total Users</div>
+                                        </div>
+                                        <div class="analytic-item">
+                                            <div class="analytic-value" id="active-requests">87</div>
+                                            <div class="analytic-label">Active Requests</div>
+                                        </div>
+                                        <div class="analytic-item">
+                                            <div class="analytic-value" id="monthly-revenue">$245,000</div>
+                                            <div class="analytic-label">Monthly Revenue</div>
+                                        </div>
+                                        <div class="analytic-item">
+                                            <div class="analytic-value" id="response-time">28 min</div>
+                                            <div class="analytic-label">Avg Response Time</div>
+                                        </div>
+                                        <div class="analytic-item">
+                                            <div class="analytic-value" id="customer-satisfaction">4.6 ★</div>
+                                            <div class="analytic-label">Customer Satisfaction</div>
+                                        </div>
+                                        <div class="analytic-item">
+                                            <div class="analytic-value emergency" id="emergency-requests">23</div>
+                                            <div class="analytic-label">Emergency Requests</div>
+                                        </div>
+                                    </div>
+                                    <div class="chart-container">
+                                        <canvas id="revenue-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-row">
+                            <div class="card users-widget">
+                                <div class="card__header">
+                                    <h3>User Management</h3>
+                                    <div class="actions">
+                                        <button class="btn btn--outline btn--sm" id="add-user-btn">Add User</button>
+                                    </div>
+                                </div>
+                                <div class="card__body">
+                                    <div class="user-table-container">
+                                        <table class="user-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Role</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>#1001</td>
+                                                    <td>John Smith</td>
+                                                    <td>Technician</td>
+                                                    <td><span class="status-badge online">Active</span></td>
+                                                    <td>
+                                                        <div class="action-buttons">
+                                                            <button class="btn btn--sm btn--outline">Edit</button>
+                                                            <button class="btn btn--sm btn--outline delete-btn">Delete</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>#1002</td>
+                                                    <td>Sarah Johnson</td>
+                                                    <td>Technician</td>
+                                                    <td><span class="status-badge busy">Busy</span></td>
+                                                    <td>
+                                                        <div class="action-buttons">
+                                                            <button class="btn btn--sm btn--outline">Edit</button>
+                                                            <button class="btn btn--sm btn--outline delete-btn">Delete</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>#1003</td>
+                                                    <td>Mike Davis</td>
+                                                    <td>Technician</td>
+                                                    <td><span class="status-badge offline">Offline</span></td>
+                                                    <td>
+                                                        <div class="action-buttons">
+                                                            <button class="btn btn--sm btn--outline">Edit</button>
+                                                            <button class="btn btn--sm btn--outline delete-btn">Delete</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-row">
+                            <div class="card financial-widget">
+                                <div class="card__header">
+                                    <h3>Financial Reports</h3>
+                                    <div class="tab-nav">
+                                        <button class="tab-btn active" data-tab="revenue-tab">Revenue</button>
+                                        <button class="tab-btn" data-tab="expenses-tab">Expenses</button>
+                                        <button class="tab-btn" data-tab="profit-tab">Profit</button>
+                                    </div>
+                                </div>
+                                <div class="card__body">
+                                    <div class="tab-content active" id="revenue-tab">
+                                        <div class="chart-container">
+                                            <canvas id="revenue-detail-chart"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="tab-content" id="expenses-tab">
+                                        <div class="chart-container">
+                                            <canvas id="expenses-chart"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="tab-content" id="profit-tab">
+                                        <div class="chart-container">
+                                            <canvas id="profit-chart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card emergency-widget">
+                                <div class="card__header">
+                                    <h3>Emergency Operations</h3>
+                                    <div class="status-badge emergency">Live</div>
+                                </div>
+                                <div class="card__body">
+                                    <div class="emergency-list">
+                                        <div class="emergency-item">
+                                            <div class="emergency-type critical">SOS</div>
+                                            <div class="emergency-details">
+                                                <div class="emergency-location">Highway 101, Mile 45</div>
+                                                <div class="emergency-time">14:30, Today</div>
+                                            </div>
+                                            <div class="emergency-status responding">Responding</div>
+                                        </div>
+                                        <div class="emergency-item">
+                                            <div class="emergency-type high">Panic</div>
+                                            <div class="emergency-details">
+                                                <div class="emergency-location">Downtown Plaza</div>
+                                                <div class="emergency-time">14:15, Today</div>
+                                            </div>
+                                            <div class="emergency-status resolved">Resolved</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-row">
+                            <div class="card config-widget">
+                                <div class="card__header">
+                                    <h3>Configuration Management</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="config-grid">
+                                        <div class="config-item">
+                                            <div class="config-label">Service Radius</div>
+                                            <div class="config-control">
+                                                <select class="form-control">
+                                                    <option>25 miles</option>
+                                                    <option>50 miles</option>
+                                                    <option selected>100 miles</option>
+                                                    <option>Unlimited</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="config-item">
+                                            <div class="config-label">Pricing Model</div>
+                                            <div class="config-control">
+                                                <select class="form-control">
+                                                    <option>Fixed</option>
+                                                    <option selected>Distance-based</option>
+                                                    <option>Time-based</option>
+                                                    <option>Hybrid</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="config-item">
+                                            <div class="config-label">Commission Rate</div>
+                                            <div class="config-control">
+                                                <select class="form-control">
+                                                    <option>10%</option>
+                                                    <option selected>15%</option>
+                                                    <option>20%</option>
+                                                    <option>25%</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="config-item">
+                                            <div class="config-label">Emergency Priority</div>
+                                            <div class="config-control">
+                                                <select class="form-control">
+                                                    <option>Standard</option>
+                                                    <option>High</option>
+                                                    <option selected>Maximum</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="config-item">
+                                            <div class="config-label">Auto-Assignment</div>
+                                            <div class="config-control">
+                                                <div class="toggle-switch">
+                                                    <label class="switch">
+                                                        <input type="checkbox" checked>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                    <span class="toggle-label">Enabled</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="config-item">
+                                            <div class="config-label">Maintenance Mode</div>
+                                            <div class="config-control">
+                                                <div class="toggle-switch">
+                                                    <label class="switch">
+                                                        <input type="checkbox">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                    <span class="toggle-label">Disabled</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="config-actions">
+                                        <button class="btn btn--primary">Save Changes</button>
+                                        <button class="btn btn--outline">Reset Defaults</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Partner Panel -->
+                <section class="panel" id="partner-panel">
+                    <header class="panel-header">
+                        <h2>Partner Dashboard</h2>
+                        <div class="actions">
+                            <button class="btn btn--outline">Download Reports</button>
+                        </div>
+                    </header>
+                    
+                    <div class="panel-body">
+                        <div class="widget-row">
+                            <div class="card onboarding-widget">
+                                <div class="card__header">
+                                    <h3>Partner Onboarding</h3>
+                                    <div class="progress-indicator">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 75%;"></div>
+                                        </div>
+                                        <div class="progress-text">75% Complete</div>
+                                    </div>
+                                </div>
+                                <div class="card__body">
+                                    <div class="onboarding-steps">
+                                        <div class="step completed">
+                                            <div class="step-number">1</div>
+                                            <div class="step-details">
+                                                <div class="step-title">Basic Information</div>
+                                                <div class="step-status">Completed</div>
+                                            </div>
+                                            <div class="step-action">
+                                                <button class="btn btn--sm btn--outline">Edit</button>
+                                            </div>
+                                        </div>
+                                        <div class="step completed">
+                                            <div class="step-number">2</div>
+                                            <div class="step-details">
+                                                <div class="step-title">Service Areas</div>
+                                                <div class="step-status">Completed</div>
+                                            </div>
+                                            <div class="step-action">
+                                                <button class="btn btn--sm btn--outline">Edit</button>
+                                            </div>
+                                        </div>
+                                        <div class="step completed">
+                                            <div class="step-number">3</div>
+                                            <div class="step-details">
+                                                <div class="step-title">Technician Details</div>
+                                                <div class="step-status">Completed</div>
+                                            </div>
+                                            <div class="step-action">
+                                                <button class="btn btn--sm btn--outline">Edit</button>
+                                            </div>
+                                        </div>
+                                        <div class="step active">
+                                            <div class="step-number">4</div>
+                                            <div class="step-details">
+                                                <div class="step-title">Payment Setup</div>
+                                                <div class="step-status">In Progress</div>
+                                            </div>
+                                            <div class="step-action">
+                                                <button class="btn btn--sm btn--primary">Continue</button>
+                                            </div>
+                                        </div>
+                                        <div class="step">
+                                            <div class="step-number">5</div>
+                                            <div class="step-details">
+                                                <div class="step-title">Agreement & Launch</div>
+                                                <div class="step-status">Pending</div>
+                                            </div>
+                                            <div class="step-action">
+                                                <button class="btn btn--sm btn--outline" disabled>Start</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-row">
+                            <div class="card performance-metrics-widget">
+                                <div class="card__header">
+                                    <h3>Performance Metrics</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="metrics-grid">
+                                        <div class="metric-card">
+                                            <div class="metric-title">Partner Rating</div>
+                                            <div class="metric-value">4.7</div>
+                                            <div class="metric-chart">
+                                                <canvas id="rating-chart"></canvas>
+                                            </div>
+                                        </div>
+                                        <div class="metric-card">
+                                            <div class="metric-title">Service Completion</div>
+                                            <div class="metric-value">92%</div>
+                                            <div class="metric-chart">
+                                                <canvas id="completion-chart"></canvas>
+                                            </div>
+                                        </div>
+                                        <div class="metric-card">
+                                            <div class="metric-title">Response Time</div>
+                                            <div class="metric-value">18 min</div>
+                                            <div class="metric-chart">
+                                                <canvas id="response-chart"></canvas>
+                                            </div>
+                                        </div>
+                                        <div class="metric-card">
+                                            <div class="metric-title">Customer Retention</div>
+                                            <div class="metric-value">84%</div>
+                                            <div class="metric-chart">
+                                                <canvas id="retention-chart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card billing-widget">
+                                <div class="card__header">
+                                    <h3>Billing & Revenue</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="billing-summary">
+                                        <div class="summary-row">
+                                            <div class="summary-label">Current Balance</div>
+                                            <div class="summary-value">$45,000</div>
+                                        </div>
+                                        <div class="summary-row">
+                                            <div class="summary-label">Pending Payments</div>
+                                            <div class="summary-value">$12,350</div>
+                                        </div>
+                                        <div class="summary-row">
+                                            <div class="summary-label">Last Payout</div>
+                                            <div class="summary-value">$38,425 (June 15)</div>
+                                        </div>
+                                        <div class="summary-row">
+                                            <div class="summary-label">Next Payout</div>
+                                            <div class="summary-value">$45,000 (July 15)</div>
+                                        </div>
+                                    </div>
+                                    <div class="chart-container">
+                                        <canvas id="revenue-share-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-row">
+                            <div class="card territory-widget">
+                                <div class="card__header">
+                                    <h3>Territory Management</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="territory-map">
+                                        <div class="map-placeholder">
+                                            <div class="territory-region active" style="left: 20%; top: 30%; width: 25%; height: 25%;">
+                                                <div class="territory-label">Metropolitan Area</div>
+                                            </div>
+                                            <div class="territory-region" style="left: 55%; top: 40%; width: 20%; height: 20%;">
+                                                <div class="territory-label">Downtown & Suburbs</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="territory-details">
+                                        <div class="territory-stats">
+                                            <div class="stat-item">
+                                                <div class="stat-label">Active Regions</div>
+                                                <div class="stat-value">2</div>
+                                            </div>
+                                            <div class="stat-item">
+                                                <div class="stat-label">Coverage Area</div>
+                                                <div class="stat-value">127 sq mi</div>
+                                            </div>
+                                            <div class="stat-item">
+                                                <div class="stat-label">Population</div>
+                                                <div class="stat-value">1.2M</div>
+                                            </div>
+                                            <div class="stat-item">
+                                                <div class="stat-label">Market Share</div>
+                                                <div class="stat-value">34%</div>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn--primary">Expand Territory</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card quality-widget">
+                                <div class="card__header">
+                                    <h3>Quality Monitoring</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="quality-metrics">
+                                        <div class="quality-item">
+                                            <div class="quality-label">Service Quality Score</div>
+                                            <div class="quality-bar-container">
+                                                <div class="quality-bar">
+                                                    <div class="quality-fill" style="width: 87%;"></div>
+                                                </div>
+                                                <div class="quality-value">87/100</div>
+                                            </div>
+                                        </div>
+                                        <div class="quality-item">
+                                            <div class="quality-label">Customer Satisfaction</div>
+                                            <div class="quality-bar-container">
+                                                <div class="quality-bar">
+                                                    <div class="quality-fill" style="width: 92%;"></div>
+                                                </div>
+                                                <div class="quality-value">92/100</div>
+                                            </div>
+                                        </div>
+                                        <div class="quality-item">
+                                            <div class="quality-label">Technician Performance</div>
+                                            <div class="quality-bar-container">
+                                                <div class="quality-bar">
+                                                    <div class="quality-fill" style="width: 84%;"></div>
+                                                </div>
+                                                <div class="quality-value">84/100</div>
+                                            </div>
+                                        </div>
+                                        <div class="quality-item">
+                                            <div class="quality-label">Response Effectiveness</div>
+                                            <div class="quality-bar-container">
+                                                <div class="quality-bar">
+                                                    <div class="quality-fill" style="width: 79%;"></div>
+                                                </div>
+                                                <div class="quality-value">79/100</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="quality-improvement">
+                                        <h4>Improvement Areas</h4>
+                                        <ul class="improvement-list">
+                                            <li class="improvement-item">
+                                                <div class="improvement-icon">⚠️</div>
+                                                <div class="improvement-text">Reduce average response time by 15%</div>
+                                            </li>
+                                            <li class="improvement-item">
+                                                <div class="improvement-icon">⚠️</div>
+                                                <div class="improvement-text">Increase technician availability during peak hours</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Security Company Panel -->
+                <section class="panel" id="security-panel">
+                    <header class="panel-header">
+                        <h2>Security Company Dashboard</h2>
+                        <div class="actions">
+                            <button class="btn btn--outline emergency-btn">Security Protocols</button>
+                        </div>
+                    </header>
+                    
+                    <div class="panel-body">
+                        <div class="widget-row">
+                            <div class="card emergency-response-widget">
+                                <div class="card__header">
+                                    <h3>Emergency Response</h3>
+                                    <div class="status-badge emergency">Live Monitoring</div>
+                                </div>
+                                <div class="card__body">
+                                    <div class="alert-grid">
+                                        <div class="alert-card critical">
+                                            <div class="alert-header">
+                                                <div class="alert-title">SOS Alert</div>
+                                                <div class="alert-priority">Critical</div>
+                                            </div>
+                                            <div class="alert-details">
+                                                <div class="alert-location">Highway 101, Mile 45</div>
+                                                <div class="alert-time">14:30, Today</div>
+                                            </div>
+                                            <div class="alert-actions">
+                                                <button class="btn btn--sm btn--primary">Respond</button>
+                                                <button class="btn btn--sm btn--outline">Escalate</button>
+                                            </div>
+                                        </div>
+                                        <div class="alert-card high">
+                                            <div class="alert-header">
+                                                <div class="alert-title">Panic Button</div>
+                                                <div class="alert-priority">High</div>
+                                            </div>
+                                            <div class="alert-details">
+                                                <div class="alert-location">Downtown Plaza</div>
+                                                <div class="alert-time">14:15, Today</div>
+                                            </div>
+                                            <div class="alert-actions">
+                                                <button class="btn btn--sm btn--primary">Respond</button>
+                                                <button class="btn btn--sm btn--outline">Escalate</button>
+                                            </div>
+                                        </div>
+                                        <div class="alert-card medium">
+                                            <div class="alert-header">
+                                                <div class="alert-title">Vehicle Lockout</div>
+                                                <div class="alert-priority">Medium</div>
+                                            </div>
+                                            <div class="alert-details">
+                                                <div class="alert-location">Shopping Mall Parking</div>
+                                                <div class="alert-time">13:45, Today</div>
+                                            </div>
+                                            <div class="alert-actions">
+                                                <button class="btn btn--sm btn--primary">Respond</button>
+                                                <button class="btn btn--sm btn--outline">Escalate</button>
+                                            </div>
+                                        </div>
+                                        <div class="alert-card low">
+                                            <div class="alert-header">
+                                                <div class="alert-title">Battery Assistance</div>
+                                                <div class="alert-priority">Low</div>
+                                            </div>
+                                            <div class="alert-details">
+                                                <div class="alert-location">Residential Area</div>
+                                                <div class="alert-time">13:20, Today</div>
+                                            </div>
+                                            <div class="alert-actions">
+                                                <button class="btn btn--sm btn--primary">Respond</button>
+                                                <button class="btn btn--sm btn--outline">Escalate</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-row">
+                            <div class="card threat-detection-widget">
+                                <div class="card__header">
+                                    <h3>Threat Detection</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="threat-map">
+                                        <div class="map-placeholder">
+                                            <div class="threat-hotspot" style="left: 30%; top: 40%;" data-level="high"></div>
+                                            <div class="threat-hotspot" style="left: 60%; top: 35%;" data-level="medium"></div>
+                                            <div class="threat-hotspot" style="left: 45%; top: 70%;" data-level="low"></div>
+                                        </div>
+                                    </div>
+                                    <div class="threat-analysis">
+                                        <div class="threat-summary">
+                                            <div class="summary-item">
+                                                <div class="summary-label">High Threats</div>
+                                                <div class="summary-value">1</div>
+                                            </div>
+                                            <div class="summary-item">
+                                                <div class="summary-label">Medium Threats</div>
+                                                <div class="summary-value">1</div>
+                                            </div>
+                                            <div class="summary-item">
+                                                <div class="summary-label">Low Threats</div>
+                                                <div class="summary-value">1</div>
+                                            </div>
+                                            <div class="summary-item">
+                                                <div class="summary-label">Threat Level</div>
+                                                <div class="summary-value">Moderate</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card incident-widget">
+                                <div class="card__header">
+                                    <h3>Incident Management</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="incident-list">
+                                        <div class="incident-item">
+                                            <div class="incident-icon">🚨</div>
+                                            <div class="incident-details">
+                                                <div class="incident-title">Vehicle Break-in</div>
+                                                <div class="incident-meta">Downtown Area - June 24, 2025</div>
+                                                <div class="incident-status resolved">Resolved</div>
+                                            </div>
+                                            <button class="btn btn--sm btn--outline">Details</button>
+                                        </div>
+                                        <div class="incident-item">
+                                            <div class="incident-icon">🚨</div>
+                                            <div class="incident-details">
+                                                <div class="incident-title">Road Rage Incident</div>
+                                                <div class="incident-meta">Highway 101 - June 23, 2025</div>
+                                                <div class="incident-status investigating">Investigating</div>
+                                            </div>
+                                            <button class="btn btn--sm btn--outline">Details</button>
+                                        </div>
+                                        <div class="incident-item">
+                                            <div class="incident-icon">🚨</div>
+                                            <div class="incident-details">
+                                                <div class="incident-title">Customer Harassment</div>
+                                                <div class="incident-meta">North District - June 22, 2025</div>
+                                                <div class="incident-status pending">Pending</div>
+                                            </div>
+                                            <button class="btn btn--sm btn--outline">Details</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-row">
+                            <div class="card compliance-widget">
+                                <div class="card__header">
+                                    <h3>Compliance Tracking</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="compliance-chart-container">
+                                        <canvas id="compliance-chart"></canvas>
+                                    </div>
+                                    <div class="compliance-details">
+                                        <div class="compliance-item">
+                                            <div class="compliance-label">Security Protocols</div>
+                                            <div class="compliance-bar-container">
+                                                <div class="compliance-bar">
+                                                    <div class="compliance-fill" style="width: 95%;"></div>
+                                                </div>
+                                                <div class="compliance-value">95%</div>
+                                            </div>
+                                        </div>
+                                        <div class="compliance-item">
+                                            <div class="compliance-label">Driver Verification</div>
+                                            <div class="compliance-bar-container">
+                                                <div class="compliance-bar">
+                                                    <div class="compliance-fill" style="width: 100%;"></div>
+                                                </div>
+                                                <div class="compliance-value">100%</div>
+                                            </div>
+                                        </div>
+                                        <div class="compliance-item">
+                                            <div class="compliance-label">Incident Reporting</div>
+                                            <div class="compliance-bar-container">
+                                                <div class="compliance-bar">
+                                                    <div class="compliance-fill" style="width: 88%;"></div>
+                                                </div>
+                                                <div class="compliance-value">88%</div>
+                                            </div>
+                                        </div>
+                                        <div class="compliance-item">
+                                            <div class="compliance-label">Data Privacy</div>
+                                            <div class="compliance-bar-container">
+                                                <div class="compliance-bar">
+                                                    <div class="compliance-fill" style="width: 92%;"></div>
+                                                </div>
+                                                <div class="compliance-value">92%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card escalation-widget">
+                                <div class="card__header">
+                                    <h3>Alert Escalation</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="escalation-workflow">
+                                        <div class="escalation-step">
+                                            <div class="step-number">1</div>
+                                            <div class="step-content">
+                                                <div class="step-title">Initial Assessment</div>
+                                                <div class="step-description">Evaluate threat level and categorize incident</div>
+                                            </div>
+                                        </div>
+                                        <div class="escalation-step">
+                                            <div class="step-number">2</div>
+                                            <div class="step-content">
+                                                <div class="step-title">First Response</div>
+                                                <div class="step-description">Deploy nearest security personnel</div>
+                                            </div>
+                                        </div>
+                                        <div class="escalation-step">
+                                            <div class="step-number">3</div>
+                                            <div class="step-content">
+                                                <div class="step-title">Situation Monitoring</div>
+                                                <div class="step-description">Track incident progress and update status</div>
+                                            </div>
+                                        </div>
+                                        <div class="escalation-step">
+                                            <div class="step-number">4</div>
+                                            <div class="step-content">
+                                                <div class="step-title">Authority Escalation</div>
+                                                <div class="step-description">Contact local law enforcement if needed</div>
+                                            </div>
+                                        </div>
+                                        <div class="escalation-step">
+                                            <div class="step-number">5</div>
+                                            <div class="step-content">
+                                                <div class="step-title">Resolution & Report</div>
+                                                <div class="step-description">Document incident and actions taken</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="escalation-contacts">
+                                        <h4>Emergency Contacts</h4>
+                                        <div class="contact-list">
+                                            <div class="contact-item">
+                                                <div class="contact-name">Security Command</div>
+                                                <div class="contact-number">555-123-4567</div>
+                                            </div>
+                                            <div class="contact-item">
+                                                <div class="contact-name">Local Police</div>
+                                                <div class="contact-number">911</div>
+                                            </div>
+                                            <div class="contact-item">
+                                                <div class="contact-name">Medical Response</div>
+                                                <div class="contact-number">555-789-1234</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- White Label Panel -->
+                <section class="panel" id="whitelabel-panel">
+                    <header class="panel-header">
+                        <h2>White Label Configuration</h2>
+                        <div class="actions">
+                            <button class="btn btn--primary">Save Configuration</button>
+                        </div>
+                    </header>
+                    
+                    <div class="panel-body">
+                        <div class="widget-row">
+                            <div class="card tenant-widget">
+                                <div class="card__header">
+                                    <h3>Tenant Management</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="tenant-list">
+                                        <div class="tenant-item active">
+                                            <div class="tenant-logo">RS+</div>
+                                            <div class="tenant-details">
+                                                <div class="tenant-name">RoadSide+ Standard</div>
+                                                <div class="tenant-domain">roadside-plus.com</div>
+                                            </div>
+                                            <div class="tenant-status">Active</div>
+                                            <div class="tenant-actions">
+                                                <button class="btn btn--sm btn--outline">Edit</button>
+                                            </div>
+                                        </div>
+                                        <div class="tenant-item">
+                                            <div class="tenant-logo">QT</div>
+                                            <div class="tenant-details">
+                                                <div class="tenant-name">Quick Tow Services</div>
+                                                <div class="tenant-domain">quicktow-roadside.com</div>
+                                            </div>
+                                            <div class="tenant-status">Active</div>
+                                            <div class="tenant-actions">
+                                                <button class="btn btn--sm btn--outline">Edit</button>
+                                            </div>
+                                        </div>
+                                        <div class="tenant-item">
+                                            <div class="tenant-logo">EA</div>
+                                            <div class="tenant-details">
+                                                <div class="tenant-name">Emergency Auto Care</div>
+                                                <div class="tenant-domain">emergency-auto.net</div>
+                                            </div>
+                                            <div class="tenant-status">Setup</div>
+                                            <div class="tenant-actions">
+                                                <button class="btn btn--sm btn--outline">Edit</button>
+                                            </div>
+                                        </div>
+                                        <div class="tenant-item add-tenant">
+                                            <div class="tenant-logo">+</div>
+                                            <div class="tenant-details">
+                                                <div class="tenant-name">Add New Tenant</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-row">
+                            <div class="card branding-widget">
+                                <div class="card__header">
+                                    <h3>Branding Customization</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="branding-grid">
+                                        <div class="branding-column">
+                                            <div class="branding-group">
+                                                <label class="form-label">Company Name</label>
+                                                <input type="text" class="form-control" value="RoadSide+ Standard">
+                                            </div>
+                                            <div class="branding-group">
+                                                <label class="form-label">Domain Name</label>
+                                                <input type="text" class="form-control" value="roadside-plus.com">
+                                            </div>
+                                            <div class="branding-group">
+                                                <label class="form-label">Contact Email</label>
+                                                <input type="email" class="form-control" value="support@roadside-plus.com">
+                                            </div>
+                                            <div class="branding-group">
+                                                <label class="form-label">Support Phone</label>
+                                                <input type="tel" class="form-control" value="1-800-ROADSIDE">
+                                            </div>
+                                        </div>
+                                        <div class="branding-column">
+                                            <div class="branding-group">
+                                                <label class="form-label">Primary Color</label>
+                                                <input type="color" class="form-control color-picker" value="#dc2626">
+                                            </div>
+                                            <div class="branding-group">
+                                                <label class="form-label">Secondary Color</label>
+                                                <input type="color" class="form-control color-picker" value="#ef4444">
+                                            </div>
+                                            <div class="branding-group">
+                                                <label class="form-label">Logo Upload</label>
+                                                <div class="file-upload">
+                                                    <button class="btn btn--outline btn--full-width">Upload Logo</button>
+                                                    <div class="upload-note">Recommended size: 250x80px</div>
+                                                </div>
+                                            </div>
+                                            <div class="branding-group">
+                                                <label class="form-label">Favicon Upload</label>
+                                                <div class="file-upload">
+                                                    <button class="btn btn--outline btn--full-width">Upload Favicon</button>
+                                                    <div class="upload-note">Recommended size: 32x32px</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="preview-section">
+                                        <h4>Branding Preview</h4>
+                                        <div class="preview-container">
+                                            <div class="brand-preview">
+                                                <div class="preview-logo">RS+</div>
+                                                <div class="preview-header">RoadSide+ Standard</div>
+                                                <div class="preview-button">Book Service</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card features-widget">
+                                <div class="card__header">
+                                    <h3>Feature Configuration</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="features-grid">
+                                        <div class="feature-item">
+                                            <div class="feature-title">Customer Panel</div>
+                                            <div class="feature-toggle">
+                                                <label class="switch">
+                                                    <input type="checkbox" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <div class="feature-title">Technician Panel</div>
+                                            <div class="feature-toggle">
+                                                <label class="switch">
+                                                    <input type="checkbox" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <div class="feature-title">Admin Panel</div>
+                                            <div class="feature-toggle">
+                                                <label class="switch">
+                                                    <input type="checkbox" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <div class="feature-title">Partner Panel</div>
+                                            <div class="feature-toggle">
+                                                <label class="switch">
+                                                    <input type="checkbox" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <div class="feature-title">Security Panel</div>
+                                            <div class="feature-toggle">
+                                                <label class="switch">
+                                                    <input type="checkbox" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <div class="feature-title">Emergency SOS</div>
+                                            <div class="feature-toggle">
+                                                <label class="switch">
+                                                    <input type="checkbox" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <div class="feature-title">Real-time Tracking</div>
+                                            <div class="feature-toggle">
+                                                <label class="switch">
+                                                    <input type="checkbox" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="feature-item">
+                                            <div class="feature-title">Payment Processing</div>
+                                            <div class="feature-toggle">
+                                                <label class="switch">
+                                                    <input type="checkbox" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="widget-row">
+                            <div class="card multi-tenant-widget">
+                                <div class="card__header">
+                                    <h3>Multi-Tenant Analytics</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="tenant-comparison">
+                                        <div class="chart-container">
+                                            <canvas id="tenant-comparison-chart"></canvas>
+                                        </div>
+                                        <div class="comparison-legend">
+                                            <div class="legend-item">
+                                                <div class="legend-color" style="background-color: var(--color-primary);"></div>
+                                                <div class="legend-label">RoadSide+ Standard</div>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color" style="background-color: #ef4444;"></div>
+                                                <div class="legend-label">Quick Tow Services</div>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color" style="background-color: #f59e0b;"></div>
+                                                <div class="legend-label">Emergency Auto Care</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="chart-container timeline-chart">
+                                        <div class="chart-title">Implementation Timeline</div>
+                                        <img src="https://pplx-res.cloudinary.com/image/upload/v1750833467/pplx_code_interpreter/1c349487_xzoesw.jpg" alt="RoadSide+ Development Timeline" class="timeline-image">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom utility classes for RoadSide+ */
+.glass-effect {
+  @apply bg-white/10 backdrop-blur-md border border-white/20;
+}
+
+.gradient-primary {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.gradient-secondary {
+  background: linear-gradient(135deg, #1fb8cd 0%, #0891b2 100%);
+}
+
+.shadow-glow {
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+.text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Animation classes */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+.animate-pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Custom component styles */
+.btn-primary {
+  @apply bg-primary-500 text-white font-semibold py-3 px-6 rounded-lg shadow-lg active:scale-95 transition-transform;
+}
+
+.btn-secondary {
+  @apply bg-secondary-500 text-white font-semibold py-3 px-6 rounded-lg shadow-lg active:scale-95 transition-transform;
+}
+
+.btn-outline {
+  @apply border-2 border-primary-500 text-primary-500 font-semibold py-3 px-6 rounded-lg active:scale-95 transition-transform;
+}
+
+.input-field {
+  @apply bg-slate-800 border border-slate-700 text-slate-100 rounded-lg px-4 py-3 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20;
+}
+
+.card {
+  @apply bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700;
+}
+
+.card-glass {
+  @apply glass-effect rounded-xl p-6 shadow-lg;
+}

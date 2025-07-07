@@ -1,0 +1,228 @@
+{
+  "frontend_implementation": {
+    "react_native_setup": {
+      "expo_configuration": {
+        "expo_version": "SDK 52",
+        "platforms": [
+          "ios",
+          "android",
+          "web"
+        ],
+        "key_dependencies": [
+          "@expo/dev-client",
+          "expo-router",
+          "expo-location",
+          "expo-notifications",
+          "expo-camera",
+          "expo-secure-store"
+        ]
+      },
+      "project_structure": {
+        "/src": {
+          "/components": "Reusable UI components",
+          "/screens": "Screen components for navigation",
+          "/services": "API and external service integrations",
+          "/hooks": "Custom React hooks",
+          "/utils": "Utility functions and helpers",
+          "/types": "TypeScript type definitions",
+          "/constants": "App constants and configuration"
+        },
+        "/assets": "Images, fonts, and static resources",
+        "/docs": "Documentation and guides"
+      },
+      "state_management": {
+        "store_structure": {
+          "auth": "Authentication state",
+          "user": "User profile and preferences",
+          "services": "Service requests and history",
+          "location": "GPS and location data",
+          "notifications": "Push notification state",
+          "ui": "UI state and loading indicators"
+        }
+      }
+    },
+    "ui_design_system": {
+      "theme_configuration": {
+        "colors": {
+          "primary": "#ef4444",
+          "secondary": "#dc2626",
+          "background": "#0f172a",
+          "surface": "#1e293b",
+          "text": "#ffffff",
+          "text_secondary": "#94a3b8"
+        },
+        "typography": {
+          "font_family": "Inter",
+          "scale": "1.25 (major third)"
+        },
+        "spacing": "8px base unit",
+        "border_radius": "8px standard"
+      },
+      "component_library": [
+        "Button variants (primary, secondary, ghost)",
+        "Input components (text, password, search)",
+        "Card components with glassmorphism",
+        "Navigation components (tab, drawer)",
+        "Modal and overlay components",
+        "Loading and skeleton components"
+      ]
+    }
+  },
+  "backend_implementation": {
+    "supabase_configuration": {
+      "database_setup": {
+        "tables": [
+          "users (authentication and profiles)",
+          "organizations (tenant management)",
+          "services (service type definitions)",
+          "requests (service requests)",
+          "technicians (service provider profiles)",
+          "locations (GPS tracking data)",
+          "payments (payment records)",
+          "notifications (notification history)"
+        ],
+        "row_level_security": "Enabled for multi-tenant isolation",
+        "real_time": "Configured for location and request updates"
+      },
+      "authentication": {
+        "providers": [
+          "email",
+          "google",
+          "apple"
+        ],
+        "jwt_configuration": "Custom claims for roles and tenants",
+        "session_management": "Automatic refresh with security policies"
+      },
+      "storage": {
+        "buckets": [
+          "profiles",
+          "documents",
+          "attachments"
+        ],
+        "cdn_integration": "CloudFront for global distribution",
+        "security": "Signed URLs with expiration"
+      }
+    },
+    "microservices_architecture": {
+      "user_service": {
+        "responsibilities": [
+          "User CRUD",
+          "Role management",
+          "Profile updates"
+        ],
+        "endpoints": [
+          "/users",
+          "/profiles",
+          "/roles"
+        ],
+        "database": "Supabase PostgreSQL"
+      },
+      "location_service": {
+        "responsibilities": [
+          "GPS tracking",
+          "Real-time updates",
+          "Route optimization"
+        ],
+        "endpoints": [
+          "/location",
+          "/tracking",
+          "/routes"
+        ],
+        "technology": "Socket.io + Redis"
+      },
+      "payment_service": {
+        "responsibilities": [
+          "Payment processing",
+          "Billing",
+          "Invoicing"
+        ],
+        "endpoints": [
+          "/payments",
+          "/billing",
+          "/invoices"
+        ],
+        "integration": "Stripe API"
+      },
+      "notification_service": {
+        "responsibilities": [
+          "Push notifications",
+          "Email",
+          "SMS"
+        ],
+        "endpoints": [
+          "/notifications",
+          "/templates"
+        ],
+        "providers": [
+          "FCM",
+          "APNs",
+          "SendGrid",
+          "Twilio"
+        ]
+      }
+    }
+  },
+  "security_implementation": {
+    "data_protection": {
+      "encryption": {
+        "data_at_rest": "AES-256 encryption for database",
+        "data_in_transit": "TLS 1.3 for all connections",
+        "api_security": "JWT with RS256 algorithm"
+      },
+      "access_control": {
+        "authentication": "Multi-factor authentication",
+        "authorization": "Role-based access control (RBAC)",
+        "session_management": "Secure session tokens with expiration"
+      },
+      "compliance": {
+        "gdpr": "Data privacy and right to be forgotten",
+        "ccpa": "California Consumer Privacy Act compliance",
+        "pci_dss": "Payment Card Industry standards"
+      }
+    },
+    "multi_tenant_isolation": {
+      "database_isolation": "Row-level security with tenant_id",
+      "api_isolation": "Tenant context in JWT claims",
+      "file_isolation": "Separate storage buckets per tenant",
+      "network_isolation": "VPC and security groups"
+    }
+  },
+  "deployment_strategy": {
+    "environments": {
+      "development": {
+        "infrastructure": "Local development with Docker",
+        "database": "Local PostgreSQL or Supabase dev",
+        "testing": "Unit tests and integration tests"
+      },
+      "staging": {
+        "infrastructure": "AWS ECS or Railway",
+        "database": "Supabase staging project",
+        "testing": "E2E tests and performance testing"
+      },
+      "production": {
+        "infrastructure": "AWS ECS with auto-scaling",
+        "database": "Supabase production with read replicas",
+        "monitoring": "Sentry, DataDog, or similar"
+      }
+    },
+    "ci_cd_pipeline": {
+      "source_control": "GitHub with branch protection",
+      "build_system": "EAS Build for mobile apps",
+      "testing": "GitHub Actions with automated tests",
+      "deployment": "EAS Submit for app stores",
+      "monitoring": "Automated deployment notifications"
+    },
+    "mobile_deployment": {
+      "ios": {
+        "app_store": "EAS Submit with automatic submission",
+        "testflight": "Beta testing with internal testers",
+        "certificates": "Managed by EAS"
+      },
+      "android": {
+        "play_store": "EAS Submit with staged rollout",
+        "internal_testing": "Internal app sharing",
+        "signing": "Managed by EAS"
+      }
+    }
+  }
+}
