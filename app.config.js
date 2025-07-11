@@ -29,7 +29,7 @@ export default {
         NSPhotoLibraryUsageDescription: "This app needs access to your photo library to attach images to service requests."
       },
       config: {
-        googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY
+        googleMapsApiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY
       }
     },
     android: {
@@ -42,6 +42,7 @@ export default {
       permissions: [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
         "CAMERA",
         "RECORD_AUDIO",
         "READ_EXTERNAL_STORAGE",
@@ -52,7 +53,7 @@ export default {
       ],
       config: {
         googleMaps: {
-          apiKey: process.env.GOOGLE_MAPS_API_KEY
+          apiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY
         }
       }
     },
@@ -77,7 +78,7 @@ export default {
             buildToolsVersion: "34.0.0"
           },
           ios: {
-            deploymentTarget: "13.4"
+            deploymentTarget: "15.1"
           }
         }
       ]

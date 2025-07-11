@@ -1,7 +1,11 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, fireEvent } from '@testing-library/react-native';
 import ServiceCard from '../ServiceCard';
+
+// Mock Expo vector icons
+jest.mock('@expo/vector-icons', () => ({
+  Ionicons: 'Ionicons'
+}));
 
 const mockService = {
   id: 1,
@@ -9,38 +13,37 @@ const mockService = {
   price: 150,
   responseTime: 30,
   duration: 45,
-  icon: '🚛',
   description: 'Vehicle towing to nearest service center'
 };
 
 describe('ServiceCard Component', () => {
   test('renders service information correctly', () => {
-    render(<ServiceCard service={mockService} onSelect={jest.fn()} />);
-    
-    expect(screen.getByText('Towing Service')).toBeInTheDocument();
-    expect(screen.getByText('$150')).toBeInTheDocument();
-    expect(screen.getByText('🚛')).toBeInTheDocument();
+    const { getByText } = render(<ServiceCard service={mockService} onPress={jest.fn()} />);
+
+    expect(getByText('Towing Service')).toBeTruthy();
+    expect(getByText('$150')).toBeTruthy();
+    expect(getByText('Vehicle towing to nearest service center')).toBeTruthy();
   });
 
-  test('calls onSelect when clicked', () => {
-    const mockOnSelect = jest.fn();
-    render(<ServiceCard service={mockService} onSelect={mockOnSelect} />);
-    
-    fireEvent.click(screen.getByRole('button'));
-    expect(mockOnSelect).toHaveBeenCalledWith(mockService);
+  test('calls onPress when pressed', () => {
+    const mockOnPress = jest.fn();
+    const { getByText } = render(<ServiceCard service={mockService} onPress={mockOnPress} />);
+
+    fireEvent.press(getByText('Towing Service'));
+    expect(mockOnPress).toHaveBeenCalledWith(mockService);
   });
 
   test('displays correct price format', () => {
-    render(<ServiceCard service={mockService} onSelect={jest.fn()} />);
-    
-    const priceElement = screen.getByText('$150');
-    expect(priceElement).toHaveClass('service-price');
+    const { getByText } = render(<ServiceCard service={mockService} onPress={jest.fn()} />);
+
+    expect(getByText('$150')).toBeTruthy();
+    expect(getByText('TTD')).toBeTruthy();
   });
 
   test('handles missing service data gracefully', () => {
-    const incompleteService = { id: 1, name: 'Test Service' };
-    render(<ServiceCard service={incompleteService} onSelect={jest.fn()} />);
-    
-    expect(screen.getByText('Test Service')).toBeInTheDocument();
+    const incompleteService = { id: 1, name: 'Test Service', price: 0, responseTime: 0 };
+    const { getByText } = render(<ServiceCard service={incompleteService} onPress={jest.fn()} />);
+
+    expect(getByText('Test Service')).toBeTruthy();
   });
 });

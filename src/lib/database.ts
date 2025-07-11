@@ -352,6 +352,25 @@ export function subscribeToTechnicianLocationUpdates(
     .on(
       'postgres_changes',
       {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'technicians',
+        filter: `id=eq.${technicianId}`,
+      },
+      callback
+    )
+    .subscribe();
+}
+
+export function subscribeToTechnicianLocationUpdates(
+  technicianId: string,
+  callback: (payload: any) => void
+) {
+  return supabase
+    .channel(`technician_location_${technicianId}`)
+    .on(
+      'postgres_changes',
+      {
         event: 'INSERT',
         schema: 'public',
         table: 'locations',
